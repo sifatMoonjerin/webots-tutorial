@@ -1,0 +1,224 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.23110240494072198 -0.1347879377316716 -0.9635475547541272 4.165566886127871
+  position 0.9080471928427748 -1.6759005383487948 0.9238498650041926
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 1 1
+}
+DEF wall1 Solid {
+  translation 0.51 0 0.025
+  children [
+    DEF WALL Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 1 0.05
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE WALL
+  physics Physics {
+  }
+}
+DEF wall2 Solid {
+  translation -0.51 0 0.025
+  children [
+    USE WALL
+  ]
+  name "solid(3)"
+  boundingObject USE WALL
+  physics Physics {
+  }
+}
+DEF wall3 Solid {
+  translation 0 0.51 0.025
+  rotation -1.4905360301295035e-05 1.640020677214498e-05 0.9999999997544317 1.57079959475345
+  children [
+    USE WALL
+  ]
+  name "solid(4)"
+  boundingObject USE WALL
+  physics Physics {
+  }
+}
+DEF wall4 Solid {
+  translation 0 -0.51 0.025
+  rotation 0 0 1 1.57
+  children [
+    USE WALL
+  ]
+  name "solid(5)"
+  boundingObject USE WALL
+  physics Physics {
+  }
+}
+Robot {
+  translation 0 0 0.04
+  children [
+    DEF ROBOT_BODY Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.1 0.05
+      }
+    }
+    DEF DS_LEFT Solid {
+      translation 0.1 0.03 0
+      rotation -0.09950371902099893 0.9950371902099893 0 1.5708
+      children [
+        DEF eye_shape Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 1
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.02
+            radius 0.005
+          }
+        }
+        DEF eye_sensor DistanceSensor {
+          rotation 0 -1 0 1.5708
+          name "ds_left"
+        }
+      ]
+      name "solid(4)"
+      boundingObject USE eye_shape
+      physics Physics {
+      }
+    }
+    DEF DS_RIGHT Solid {
+      translation 0.1 -0.03 0
+      rotation 0.09950371902099892 0.9950371902099892 0 1.5708
+      children [
+        USE eye_shape
+        DistanceSensor {
+          rotation 0 -1 0 1.5708
+          name "ds_right"
+        }
+      ]
+      name "solid(5)"
+      boundingObject USE eye_shape
+      physics Physics {
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel_motor_1"
+        }
+      ]
+      endPoint DEF WHEEL1 Solid {
+        translation 0.05 0.06 0
+        rotation 1 0 0 1.5707999823861076
+        children [
+          DEF WHEEL_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 1 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+            }
+          }
+        ]
+        boundingObject USE WHEEL_SHAPE
+        physics DEF WHEEL_PH Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.05 0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel_motor_2"
+        }
+      ]
+      endPoint DEF WHEEL2 Solid {
+        translation -0.05 0.06 0
+        rotation 1 0 0 1.5708
+        children [
+          USE WHEEL_SHAPE
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL_SHAPE
+        physics USE WHEEL_PH
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.05 -0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel_motor_3"
+        }
+      ]
+      endPoint DEF WHEEL3 Solid {
+        translation -0.05 -0.06 0
+        rotation 1 0 0 1.5708
+        children [
+          USE WHEEL_SHAPE
+        ]
+        name "solid(2)"
+        boundingObject USE WHEEL_SHAPE
+        physics USE WHEEL_PH
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 -0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel_motor_4"
+        }
+      ]
+      endPoint DEF WHEEL4 Solid {
+        translation 0.05 -0.06 0
+        rotation 1 0 0 1.5708
+        children [
+          USE WHEEL_SHAPE
+        ]
+        name "solid(3)"
+        boundingObject USE WHEEL_SHAPE
+        physics USE WHEEL_PH
+      }
+    }
+  ]
+  boundingObject USE ROBOT_BODY
+  physics Physics {
+  }
+  controller "four_wheeled_collision_avoidance"
+}

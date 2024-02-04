@@ -1,0 +1,188 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.006640521107549165 -0.9994342006580471 0.032972443561717454 5.885917258595584
+  position -2.338977588849785 -0.05857181878559936 0.9837066084726529
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 1 1
+}
+WoodenBox {
+  translation -0.16999999992613754 0.3300000000738625 0.04996076001835642
+  rotation 0.7071067082413489 -0.7071068541317356 -6.417118710292339e-08 1.7042446860934132e-10
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+WoodenBox {
+  translation 0.020000000073862424 -0.20999999992613752 0.04996076001835642
+  rotation 0.7071068542884457 -0.7071067080846418 -3.802601987208329e-09 1.7042451008062612e-10
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+WoodenBox {
+  translation 0.2700000000738625 0.17000000007386248 0.04996076001835642
+  rotation 0.7071068281586054 -0.7071067342144827 -7.482617243580504e-08 1.7042448997909046e-10
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+E-puck {
+  translation -0.3305158675773799 0.05999999508021373 -3.197584340296558e-05
+  rotation -3.4816451673491663e-06 0.9999999926113164 -0.00012151232506524437 0.0007674369607526602
+  controller "epuck_avoid_collision"
+}
+DEF ball1 Solid {
+  translation 0.2 0 0.04958907983689184
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "../assests/red_brick_wall.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BALL_GEOMETRY Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  boundingObject USE BALL_GEOMETRY
+  physics Physics {
+  }
+}
+DEF ball2 Solid {
+  translation -0.3 -0.3 0.049589079144162905
+  children [
+    DEF BALL Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BALL
+  physics Physics {
+  }
+}
+DEF wall1 Solid {
+  translation 0.51 0 0.025
+  children [
+    DEF WALL Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 1 0.05
+      }
+    }
+  ]
+  name "solid(2)"
+}
+DEF wall2 Solid {
+  translation -0.51 0 0.025
+  children [
+    USE WALL
+  ]
+  name "solid(3)"
+  boundingObject USE WALL
+  physics Physics {
+  }
+}
+DEF wall3 Solid {
+  translation 0 0.51 0.025
+  rotation -1.4905360301295035e-05 1.640020677214498e-05 0.9999999997544317 1.57079959475345
+  children [
+    USE WALL
+  ]
+  name "solid(4)"
+  boundingObject USE WALL
+  physics Physics {
+  }
+}
+DEF wall4 Solid {
+  translation 0 -0.51 0.025
+  rotation 0 0 1 1.57
+  children [
+    USE WALL
+  ]
+  name "solid(5)"
+  boundingObject USE WALL
+  physics Physics {
+  }
+}
+DEF dumbbell Solid {
+  translation 0.2 -0.3 0.1
+  rotation 1 0 0 1.5708
+  children [
+    DEF G0 Group {
+      children [
+        Pose {
+          translation 0 0 0.07
+          children [
+            DEF DUMBBELL_WEIGHT Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Sphere {
+                radius 0.03
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 -0.07
+          children [
+            USE DUMBBELL_WEIGHT
+          ]
+        }
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.1
+            radius 0.01
+          }
+        }
+      ]
+    }
+  ]
+  name "solid(6)"
+  contactMaterial "dumbbell"
+  boundingObject USE G0
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0 0.01
+    ]
+  }
+}
